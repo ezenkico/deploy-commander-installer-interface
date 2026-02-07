@@ -139,13 +139,14 @@ export function createWire(senderActions: (wire: WireSend) => Promise<RPCRespons
 
       case "rpc.send-res":
       case "rpc.res": {
-        const wireId = (data as WireResponseBase).wireId;
+        const msg = data as WireResponseBase;
+        const wireId = msg.wireId;
         if (typeof wireId !== "string") return;
 
         const pending = rpcMap.get(wireId);
         if (!pending) return;
 
-        pending(data as RPCResponse);
+        pending(msg);
         rpcMap.delete(wireId);
         return;
       }
