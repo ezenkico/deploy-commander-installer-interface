@@ -1,5 +1,5 @@
 {
-  "name": "deploy-commander-installer-interface",
+  "name": "@ezenki/deploy-commander-installer-interface",
   "version": "1.0.0",
   "description": "An interface to help installers communicate with the platform",
   "type": "module",
