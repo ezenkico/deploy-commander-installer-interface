@@ -94,6 +94,7 @@ export interface Wire{
     sendToParent: (call: RPCCall) => Promise<RPCResponse>;
     sendToChild: (child: string, call: RPCCall) => Promise<RPCResponse>;
     startInterface: (call: InterfaceInitCall) => Promise<WireInterfaceInitResponse>;
+    close: (message: InterfaceResponse) => void;
     end: () => void;
 }
 

@@ -96,6 +96,14 @@ export function createWire(senderActions: (wire: WireSend) => Promise<RPCRespons
     return result;
   }
 
+  function close(message: InterfaceResponse){
+    const data: InterfaceClose = {
+        type: "iface.close",
+        ...message
+    }
+    sendToManager(data);
+  }
+
   const handler = (event: MessageEvent) => {
     const data = event.data;
 
@@ -194,6 +202,7 @@ export function createWire(senderActions: (wire: WireSend) => Promise<RPCRespons
     sendToParent,
     sendToChild,
     startInterface,
+    close,
     end() {
       window.removeEventListener("message", handler);
     },
