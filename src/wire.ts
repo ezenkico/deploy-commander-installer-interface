@@ -1,3 +1,4 @@
+import { InterfaceEvent } from "./events/types";
 import {
     InterfaceClose,
   InterfaceInitCall,
@@ -24,7 +25,10 @@ function sendToManager(message: any) {
   window.parent.postMessage(message, "*");
 }
 
-export function createWire(senderActions: (wire: WireSend) => Promise<RPCResponse>): Wire {
+export function createWire(
+  senderActions: (wire: WireSend) => Promise<RPCResponse>,
+  eventAction?: (event: InterfaceEvent) => void
+): Wire {
   const rpcMap: Map<string, Pending<RPCResponse>> = new Map();
   const interfaceInitMap: Map<string, Pending<WireInterfaceInitResponse>> = new Map();
   const interfaceCloseMap: Map<string, Pending<InterfaceResponse>> = new Map();
@@ -191,6 +195,12 @@ export function createWire(senderActions: (wire: WireSend) => Promise<RPCRespons
         pendingClose(msg as InterfaceResponse);
         interfaceCloseMap.delete(from);
         return;
+      }
+
+      case "event": {
+        if(eventAction){
+          eventAction(data as InterfaceEvent);
+        }
       }
     }
   };
